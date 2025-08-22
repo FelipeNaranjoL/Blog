@@ -1,3 +1,4 @@
+/* importaciones de tailwind para que las clases funcionen correctamente */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
