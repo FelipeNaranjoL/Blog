@@ -25,12 +25,14 @@ import blog_icon from './blog_icon.png'
 import add_icon from './add_icon.png'
 import email_icon from './email_icon.png'
 import upload_area from './upload_area.png'
+import github_icon from './github_icon.png'
 
 export const assets = {
     facebook_icon,
     googleplus_icon,
     twitter_icon,
     profile_icon,
+    github_icon,
     logo,
     arrow,
     logo_light,
