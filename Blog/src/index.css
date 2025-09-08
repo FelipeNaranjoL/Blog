@@ -1,0 +1,62 @@
+/* ==========================================================
+   Archivo: styles.css (o index.css)
+   Descripción: Estilos globales para el proyecto del Blog.
+   Se utiliza TailwindCSS y la fuente Outfit de Google Fonts.
+   ========================================================== */
+
+/* Importa la fuente Outfit desde Google Fonts.
+   Se usa con diferentes grosores (100 a 900).
+   Esta fuente será aplicada globalmente a toda la app. */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+/* Importa TailwindCSS.
+   Esto habilita todas las utilidades y directivas
+   (como @apply, @theme, etc.). */
+@import "tailwindcss";
+
+/* Estilos globales aplicados a todos los elementos.
+   Se define la fuente Outfit como la tipografía principal. */
+* {
+  font-family: "Outfit", sans-serif;
+}
+
+/* Oculta las barras de scroll en navegadores basados en WebKit
+   (Chrome, Edge, Safari).
+   Esto hace que el diseño luzca más limpio. */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Definición de variables de tema personalizadas para Tailwind.
+   Se crea un color primario que puede reutilizarse en clases
+   como bg-primary, text-primary, border-primary, etc. */
+@theme {
+  --color-primary: #1041E5; /* Azul principal de la marca */
+}
+
+
+.rich-text { font-size: 15px;  }
+
+.rich-text p { margin-bottom: 16px; color: #292929; }
+
+.rich-text h1 { font-size: 36px; font-weight: 700; color: #252525 !important; margin: 32px 0; }
+
+.rich-text h2 { font-size: 22px; font-weight: 700; color: #252525 !important; margin: 24px 0; }
+
+.rich-text h3 { font-size: 18px; font-weight: 600; color: #333333 !important; margin: 20px 0; }
+
+.rich-text h4 { font-size: 16px; font-weight: 500; color: #444444 !important; margin: 16px 0; }
+
+.rich-text h5 { font-size: 14px; font-weight: 400; color: #555555 !important; margin: 12px 0; }
+
+.rich-text h6 { font-size: 12px; font-weight: 400; color: #666666 !important; margin: 8px 0; }
+
+.rich-text strong { font-weight: 700; }
+
+.rich-text ol { margin-left: 30px; list-style-type: decimal; }
+
+.rich-text ul { margin-left: 30px; list-style-type: disc; }
+
+.rich-text li { margin-bottom: 8px; }
+
+.rich-text a { color: #007AFF }
