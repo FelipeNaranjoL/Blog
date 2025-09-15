@@ -1,14 +1,44 @@
-import express from "express" // Importa Express para crear rutas
-import { addBlog } from "../controllers/blogController.js" // Importa la función controladora para añadir un blog
-import upload from "../middleware/multer.js"; // Middleware para manejar la subida de archivos (imagenes)
-import auth from "../middleware/auth.js"; // Middleware de autenticación para proteger la ruta
+import express from "express"; 
+// Importa Express, un framework para Node.js que permite crear servidores
+// y manejar rutas HTTP de manera sencilla.
 
-const blogRouter = express.Router(); // Crea un router de Express
+import { addBlog, deleteBlogById, getAllBlogs, getBlogById, togglePublish } 
+    from "../controllers/blogController.js"; 
+// Importa las funciones controladoras que contienen la lógica de negocio
+// para gestionar los blogs (crear, obtener, eliminar, cambiar estado, etc.).
 
-// Ruta POST para añadir un blog
-// Se aplica primero 'upload.single("image")' para procesar la imagen,
-// luego 'auth' para verificar que el usuario esté autenticado
-// finalmente se llama a 'addBlog' para crear el blog en la base de datos
-blogRouter.post("/add", upload.single('image'), auth, addBlog)
+import upload from "../middleware/multer.js"; 
+// Importa el middleware Multer, que se usa para manejar la subida de archivos (ej: imágenes).
 
-export default blogRouter; // Exporta el router para usarlo en app.js
+import auth from "../middleware/auth.js"; 
+// Importa el middleware de autenticación, que protege las rutas 
+// para que solo usuarios autorizados puedan ejecutarlas.
+
+const blogRouter = express.Router(); 
+// Crea una nueva instancia de Router de Express.
+// Permite definir rutas relacionadas con los blogs de forma modular.
+
+// Ruta para añadir un nuevo blog.
+// - Primero se aplica 'upload.single("image")' para procesar la imagen enviada.
+// - Luego 'auth' valida que el usuario esté autenticado.
+// - Finalmente 'addBlog' guarda el blog en la base de datos.
+blogRouter.post("/add", upload.single('image'), auth, addBlog);
+
+// Ruta para obtener todos los blogs.
+// No requiere autenticación, por lo que cualquiera puede listar blogs.
+blogRouter.get("/all", getAllBlogs);
+
+// Ruta para obtener un blog específico mediante su ID.
+// Se usa un parámetro dinámico en la URL (":blogId").
+blogRouter.get("/:blogId", getBlogById);
+
+// Ruta para eliminar un blog.
+// Requiere autenticación, para que solo usuarios autorizados puedan eliminar.
+blogRouter.post("/delete", auth, deleteBlogById);
+
+// Ruta para cambiar el estado de publicación de un blog (ej: publicar/despublicar).
+// También requiere autenticación.
+blogRouter.post("/toggle-publish", auth, togglePublish);
+
+export default blogRouter; 
+// Exporta el router para que pueda usarse en 'app.js' u otros módulos.
