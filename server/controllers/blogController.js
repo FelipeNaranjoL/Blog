@@ -1,5 +1,6 @@
 import imagekit from "../configs/imageKit.js"; // Importa la configuración de ImageKit para subir y optimizar imágenes
 import Blog from "../models/Blog.js"; // Importa el modelo de Blog de MongoDB
+import Comment from "../models/Comment.js"; // Importa el modelo de Comment de MongoDB
 
 // Controlador para añadir un nuevo blog
 export const addBlog = async (req, res) => {
@@ -104,6 +105,8 @@ export const deleteBlogById = async (req, res) => {
     try {
         const { id } = req.body; // El ID viene desde el body
         await Blog.findByIdAndDelete(id);
+        // eliminar todos los comentarios asociados al blog
+        await Comment.deleteMany({ blog: id });
         res.json({
             success: true,
             message: "Blog eliminado"
@@ -134,3 +137,37 @@ export const togglePublish = async (req, res) => {
         });
     }
 };
+
+// Controlador para añadir un nuevo comentario
+export const addComment = async (req, res) => {
+    try {
+        const { blog, name, content } = req.body;
+        await Comment.create({ blog, name, content });
+        res.json({
+            success: true,
+            message: 'comentario añadido exitosamente'
+        });
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+// Controlador para obtener los comentarios en base un id de blog
+export const getBlogComments = async (req, res) => {
+    try {
+        const { blogId } = req.body;
+        const comments = await Comment.find({ blog: blogId, isApproved: true }).sort({ CreateAt: -1 });
+        res.json({
+            success: true,
+            comments
+        });
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        });
+    }
+}

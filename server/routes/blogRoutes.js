@@ -2,7 +2,7 @@ import express from "express";
 // Importa Express, un framework para Node.js que permite crear servidores
 // y manejar rutas HTTP de manera sencilla.
 
-import { addBlog, deleteBlogById, getAllBlogs, getBlogById, togglePublish } 
+import { addBlog, addComment, deleteBlogById, getAllBlogs, getBlogById, getBlogComments, togglePublish } 
     from "../controllers/blogController.js"; 
 // Importa las funciones controladoras que contienen la lógica de negocio
 // para gestionar los blogs (crear, obtener, eliminar, cambiar estado, etc.).
@@ -39,6 +39,11 @@ blogRouter.post("/delete", auth, deleteBlogById);
 // Ruta para cambiar el estado de publicación de un blog (ej: publicar/despublicar).
 // También requiere autenticación.
 blogRouter.post("/toggle-publish", auth, togglePublish);
+
+// Ruta para añadir comentario
+blogRouter.post("/add-comment", addComment);
+// Ruta para ver los comentarios en base un id de blog
+blogRouter.post("/comments", getBlogComments);
 
 export default blogRouter; 
 // Exporta el router para que pueda usarse en 'app.js' u otros módulos.
