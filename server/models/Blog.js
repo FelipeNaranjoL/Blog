@@ -30,7 +30,7 @@ const blogSchema = new mongoose.Schema({
 // 📌 Creamos el modelo "Blog" a partir del esquema.
 // Este modelo es el que usaremos para interactuar con la colección "blogs"
 // en la base de datos (por defecto Mongoose pluraliza el nombre).
-const Blog = mongoose.model('blog', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 // 📌 Exportamos el modelo para usarlo en controladores y rutas
 export default Blog;

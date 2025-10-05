@@ -1,56 +1,86 @@
 /**
  * ==========================================================
  * Componente: Blog.tsx
- * Descripción: Página de detalle de un post del blog.
- * Muestra título, subtítulo, autor, imagen, contenido y comentarios.
- * Permite agregar comentarios y compartir en redes sociales.
+ * Descripción: 
+ * - Página de detalle de un post del blog.
+ * - Muestra título, subtítulo, autor, imagen, contenido y comentarios.
+ * - Permite agregar comentarios y compartir en redes sociales.
  * ==========================================================
  */
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom' // Para capturar el parámetro :id de la URL
-import { assets, blog_data, comments_data } from '../assets/assets'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Loading from '../components/Loading'
-import moment from 'moment' // Para formatear fechas
+import { useParams } from 'react-router-dom' // Para capturar el parámetro dinámico :id de la URL
+import { assets, blog_data, comments_data } from '../assets/assets' // Recursos y datos de prueba
+import Navbar from '../components/Navbar' // Barra de navegación
+import Footer from '../components/Footer' // Footer del sitio
+import Loading from '../components/Loading' // Componente de spinner mientras carga la data
+import moment from 'moment' // Librería para formatear fechas
+import { useAppContext } from '../context/AppContext' // Contexto global (ej: axios, estado)
+import toast from 'react-hot-toast' // Notificaciones tipo toast
 
 const Blog = () => {
-    const { id } = useParams() // Obtenemos el id del blog desde la URL
+    // 📌 Obtenemos el ID del blog desde la URL
+    const { id } = useParams() 
 
-    // Estado para la información del post
+    // 📌 Extraemos axios del contexto para hacer peticiones HTTP
+    const { axios } = useAppContext();
+
+    // 📌 Estado para la información del blog
     const [data, setData] = useState(null)
 
-    // Estado para comentarios
+    // 📌 Estado para los comentarios
     const [comments, setComments] = useState([])
-    const [name, setName] = useState('')      // Nombre del nuevo comentario
+    const [name, setName] = useState('')       // Nombre del nuevo comentario
     const [content, setContent] = useState('') // Contenido del nuevo comentario
 
-    // Función para obtener los datos del blog (simulada aquí desde blog_data)
+    // 📌 Función para obtener los datos del blog desde el backend
     const fetchBlogData = async () => {
-        const data = blog_data.find(item => item._id === id)
-        setData(data)
+        try {
+            const { data } = await axios.get(`/api/blog/${id}`) 
+            data.success ? setData(data.blog) : toast.error(data.message)
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
-    // Función para obtener comentarios (simulada desde comments_data)
+    // 📌 Función para obtener los comentarios del blog
     const fetchComments = async () => {
-        setComments(comments_data)
+        try {
+            const { data } = await axios.post('/api/blog/comments', { blogId: id })
+            if (data.success) {
+                setComments(data.comments)
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
-    // Función para agregar un comentario
+    // 📌 Función para agregar un comentario nuevo
     const addComment = async (e) => {
-        e.preventDefault()
-        // Aquí se podría integrar un POST al backend
-        // Actualmente solo previene el submit por defecto
+        e.preventDefault() // Evita que se recargue la página al enviar
+        try {
+            const { data } = await axios.post('/api/blog/add-comment', { blog: id, name, content });
+            if (data.success) {
+                toast.success(data.message)
+                setName('')       // Limpia el input de nombre
+                setContent('')    // Limpia el textarea de contenido
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
-    // Ejecuta la carga inicial de datos y comentarios
+    // 📌 useEffect para cargar los datos del blog y sus comentarios al montar el componente
     useEffect(() => {
         fetchBlogData()
         fetchComments()
     }, [])
 
-    // Renderiza la página solo si data existe, sino muestra Loading
+    // 📌 Renderizado condicional: si data existe, mostramos el blog; sino mostramos Loading
     return data ? (
         <div className='relative'>
             {/* Fondo decorativo */}
@@ -80,14 +110,15 @@ const Blog = () => {
 
             {/* Contenido principal */}
             <div className='mx-5 max-w-5xl md:mx-auto py-10 mt-6'>
+                {/* Imagen del blog */}
                 <img src={data.image} className='rounded-3xl mb-5' alt="" />
 
-                {/* Contenido HTML renderizado */}
+                {/* Contenido HTML del blog */}
                 <div className='rich-text max-w-3xl mx-auto'
                     dangerouslySetInnerHTML={{ __html: data.description }}>
                 </div>
 
-                {/* --------------------- Comentarios --------------------- */}
+                {/* --------------------- Sección de Comentarios --------------------- */}
                 <div className='mt-14 mb-10 max-w-3xl mx-auto'>
                     <p className='font-semibold mb-4'>Comentarios ({comments.length})</p>
 
@@ -99,6 +130,7 @@ const Blog = () => {
                                     <p className='font-medium'>{item.name}</p>
                                 </div>
                                 <p className='text-sm max-w-md ml-8'>{item.content}</p>
+
                                 {/* Fecha del comentario */}
                                 <div className='absolute right-4 bottom-3 flex items-center gap-2 text-xs'>
                                     {moment(data.createdAt).format('D/MM/YYYY')}
@@ -112,6 +144,7 @@ const Blog = () => {
                 <div className='max-w-3xl mx-auto'>
                     <p className='font-semibold mb-4'>Añadir comentario</p>
                     <form onSubmit={addComment} className='flex flex-col items-start gap-4 max-w-lg'>
+                        {/* Input de nombre */}
                         <input
                             type="text"
                             placeholder='Nombre'
@@ -120,6 +153,8 @@ const Blog = () => {
                             required
                             className='w-full p-2 border border-gray-300 rounded outline-none'
                         />
+
+                        {/* Textarea de comentario */}
                         <textarea
                             placeholder='Comenta'
                             value={content}
@@ -127,13 +162,15 @@ const Blog = () => {
                             required
                             className='w-full p-2 border border-gray-300 rounded outline-none h-48'
                         />
+
+                        {/* Botón de enviar */}
                         <button type="submit" className='bg-primary text-white rounded p-2 px-8 hover:scale-102 transition-all cursor-pointer'>
                             Enviar
                         </button>
                     </form>
                 </div>
 
-                {/* --------------------- Redes sociales --------------------- */}
+                {/* --------------------- Compartir en Redes Sociales --------------------- */}
                 <div className='my-24 max-w-3xl mx-auto'>
                     <p className='font-semibold my-4'>Comparte este artículo por tus redes sociales</p>
                     <div className='flex gap-4'>
@@ -146,7 +183,7 @@ const Blog = () => {
             {/* Footer */}
             <Footer />
         </div>
-    ) : <Loading /> // Muestra spinner mientras carga la data
+    ) : <Loading /> // Muestra spinner mientras se cargan los datos del blog
 }
 
 export default Blog

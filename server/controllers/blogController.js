@@ -128,7 +128,7 @@ export const togglePublish = async (req, res) => {
         await blog.save(); // Guardamos los cambios
         res.json({
             success: true,
-            message: "Blog actualizado"
+            message: "Estado modificado"
         });
     } catch (error) {
         res.json({

@@ -47,7 +47,7 @@ export const getAllComments = async (req, res) => {
         // .populate("blog") sustituye el campo "blog" (ObjectId)
         // por el documento completo del blog relacionado
         // .sort({ createdAt: -1 }) ordena los resultados por fecha de creación descendente
-        const comments = await Comment.find({}).populate("blog").sort({ CreateAt: -1 })
+        const comments = await Comment.find({}).populate("blog").sort({ createAt: -1 })
         // Respondemos al cliente con la lista de comentarios
         res.json({ success: true, comments });
     } catch (error) {

@@ -3,11 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import { assets, blogCategories } from '../../assets/assets'
 // Importa Quill, editor de texto enriquecido
 import Quill from 'quill';
+import { useAppContext } from '../../context/AppContext'; // Contexto global con axios
+import toast from 'react-hot-toast'; // Para notificaciones tipo toast
 
 const Addblog = () => {
+  const { axios } = useAppContext(); // Extraemos axios del contexto
+  const [isAdding, setIsAdding] = useState(false) // Estado para mostrar si se está enviando el blog
+
   // Referencia al div que contendrá el editor Quill
   const editorRef = useRef(null);
-  // Referencia para almacenar la instancia de Quill y no reinicializarla
+  // Referencia para almacenar la instancia de Quill y evitar reinicializaciones
   const quillrRef = useRef(null);
 
   // Estados del formulario
@@ -17,23 +22,56 @@ const Addblog = () => {
   const [category, setCategory] = useState('Startup'); // Categoría seleccionada
   const [isPublished, setIsPublished] = useState(false); // Checkbox de publicación
 
-  // Función para generar contenido con IA (placeholder)
+  // Función para generar contenido con IA (placeholder, aún no implementada)
   const generateContent = async (e) => {
 
   }
 
-  // Maneja el envío del formulario
+  // Función que maneja el envío del formulario al backend
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    // Aquí luego mandarías la información al backend
+    try {
+      e.preventDefault(); // Previene la recarga de la página
+      setIsAdding(true)   // Activa indicador de envío
+
+      // Creamos el objeto blog con todos los campos
+      const blog = {
+        title,
+        subTitle,
+        description: quillrRef.current.root.innerHTML, // Contenido del editor Quill
+        category,
+        isPublished
+      }
+
+      // Preparamos FormData para enviar archivo y datos juntos
+      const formData = new FormData();
+      formData.append('blog', JSON.stringify(blog))
+      formData.append('image', image)
+
+      // Petición POST al backend para añadir el blog
+      const { data } = await axios.post('/api/blog/add', formData);
+
+      if(data.success){
+        toast.success(data.message) // Muestra notificación de éxito
+        setImage(false)             // Resetea la imagen
+        setTitle('')                // Resetea el título
+        quillrRef.current.root.innerHTML = '' // Resetea el contenido de Quill
+        setCategory('Startup')      // Resetea categoría
+      } else {
+        toast.error(data.message)   // Notificación de error
+      }
+    } catch (error) {
+      toast.error(error.message)    // Notificación de error si falla la petición
+    } finally {
+      setIsAdding(false)            // Desactiva indicador de envío
+    }
   }
 
-  // Inicializa el editor Quill cuando el componente se monta
+  // Inicializa el editor Quill solo una vez al montar el componente
   useEffect(() => {
-    if(!quillrRef.current && editorRef.current){
-      quillrRef.current = new Quill(editorRef.current, {theme: 'snow'})
+    if (!quillrRef.current && editorRef.current) {
+      quillrRef.current = new Quill(editorRef.current, { theme: 'snow' })
     }
-  },[])
+  }, [])
 
   return (
     <form
@@ -41,7 +79,7 @@ const Addblog = () => {
       className="flex-1 bg-blue-50/50 text-gray-600 h-full overflow-scroll"
     >
       <div className="bg-white w-full max-w-3xl p-4 md:p-10 sm:m-10 shadow rounded">
-        
+
         {/* Sección de subida de imagen */}
         <p>Subir Blog</p>
         <label htmlFor="image">
@@ -61,33 +99,33 @@ const Addblog = () => {
 
         {/* Campo de título */}
         <p>Titulo del blog</p>
-        <input 
-          type="text" 
-          placeholder='Ingresar aqui' 
-          required 
-          className='w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded' 
+        <input
+          type="text"
+          placeholder='Ingresar aqui'
+          required
+          className='w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded'
           onChange={e => setTitle(e.target.value)} // Actualiza el estado del título
-          value={title} 
+          value={title}
         />
 
         {/* Campo de subtítulo */}
         <p>Subtitulo</p>
-        <input 
-          type="text" 
-          placeholder='Ingresar aqui' 
-          required 
-          className='w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded' 
+        <input
+          type="text"
+          placeholder='Ingresar aqui'
+          required
+          className='w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded'
           onChange={e => setSubTitle(e.target.value)} // Actualiza el estado del subtítulo
-          value={subTitle} 
+          value={subTitle}
         />
 
         {/* Editor de contenido */}
         <p>Descripcion</p>
         <div className='max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative'>
           <div ref={editorRef}></div> {/* Div que contiene Quill */}
-          <button 
-            className='absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer' 
-            type='button' 
+          <button
+            className='absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer'
+            type='button'
             onClick={generateContent} // Genera contenido con IA
           >
             Generar con IA
@@ -96,9 +134,9 @@ const Addblog = () => {
 
         {/* Selección de categoría */}
         <p>Categoria</p>
-        <select 
+        <select
           onChange={e => setCategory(e.target.value)} // Actualiza categoría
-          className='mt-2 px-3 py-2 border text-gray-500 border-gray-300 outline-none rounded' 
+          className='mt-2 px-3 py-2 border text-gray-500 border-gray-300 outline-none rounded'
           name="category"
         >
           <option value="">Selecciona la categoria</option>
@@ -110,20 +148,21 @@ const Addblog = () => {
         {/* Checkbox de publicación */}
         <div className='flex gap-2 mt-4'>
           <p>Publicar ahora</p>
-          <input 
-            type="checkbox" 
-            checked={isPublished} 
-            className='scale-125 cursor-pointer' 
+          <input
+            type="checkbox"
+            checked={isPublished}
+            className='scale-125 cursor-pointer'
             onChange={e => setIsPublished(e.target.checked)} // Actualiza estado de publicación
           />
         </div>
 
         {/* Botón para enviar formulario */}
-        <button 
-          type="submit" 
+        <button
+          disabled={isAdding} // Deshabilita si ya se está agregando
+          type="submit"
           className='mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer'
         >
-          Añadir blog
+          {isAdding ? 'Añadiendo...' : 'Añadir Blog'} {/* Cambia el texto según estado */}
         </button>
       </div>
     </form>

@@ -9,17 +9,52 @@
  */
 
 import React from 'react'
-import { assets } from '../../assets/assets'
+import { assets } from '../../assets/assets' // Iconos e imágenes
+import { useAppContext } from '../../context/AppContext' // Contexto con axios
+import toast from 'react-hot-toast' // Para mostrar notificaciones
 
 /**
  * Props:
  * - blog: objeto con los datos del blog (title, createdAt, isPublished, etc.)
- * - fetchBlogs: función (aún no usada aquí) para refrescar la lista de blogs tras acciones.
- * - index: posición del blog en la tabla (se muestra como número de fila).
+ * - fetchBlogs: función para refrescar la lista de blogs tras eliminar o actualizar
+ * - index: posición del blog en la tabla (se muestra como número de fila)
  */
 const BlogTableItem = ({ blog, fetchBlogs, index }) => {
     const { title, createdAt } = blog
     const BlogDate = new Date(createdAt) // Convertimos la fecha a objeto Date
+    const { axios } = useAppContext(); // Extraemos axios desde el contexto
+
+    // Función para eliminar un blog
+    const deleteBlog = async () => {
+        const confirm = window.confirm('¿Seguro que quieres eliminar este blog?') // Confirmación
+        if (!confirm) return;
+        try {
+            const { data } = await axios.post('api/blog/delete', { id: blog._id }) // Petición DELETE
+            if (data.success) {
+                toast.success(data.message) // Notificación de éxito
+                await fetchBlogs() // Refresca la lista de blogs
+            } else {
+                toast.error(data.message) // Notificación si hay error
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    // Función para alternar el estado de publicación
+    const togglePublish = async () => {
+        try {
+            const { data } = await axios.post('api/blog/toggle-publish', { id: blog._id }) // Petición toggle
+            if (data.success) {
+                toast.success(data.message) // Notificación de éxito
+                await fetchBlogs() // Refresca la lista de blogs
+            } else {
+                toast.error(data.message) // Notificación si hay error
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
 
     return (
         <tr className='border-y border-gray-300'>
@@ -41,13 +76,17 @@ const BlogTableItem = ({ blog, fetchBlogs, index }) => {
 
             {/* Columna: acciones */}
             <td className='px-2 py-4 flex text-xs gap-3'>
-                {/* Botón para cambiar estado de publicación (no implementado aún) */}
-                <button className='border px-2 py-0.5 mt-1 rounded cursor-pointer'>
-                    {blog.isPublished ? 'Sin publicar' : 'Publicado'}
+                {/* Botón para cambiar estado de publicación */}
+                <button 
+                    onClick={togglePublish} 
+                    className='border px-2 py-0.5 mt-1 rounded cursor-pointer'
+                >
+                    {blog.isPublished ? 'Despublicar' : 'Publicar'}
                 </button>
 
-                {/* Icono para eliminar el blog (no implementado aún) */}
+                {/* Icono para eliminar el blog */}
                 <img
+                    onClick={deleteBlog}
                     src={assets.cross_icon}
                     alt="Eliminar"
                     className='w-8 hover:scale-110 transition-all cursor-pointer'
