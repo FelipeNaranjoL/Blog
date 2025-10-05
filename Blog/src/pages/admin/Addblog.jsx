@@ -76,7 +76,7 @@ const Addblog = () => {
   return (
     <form
       onSubmit={onSubmitHandler} // Llama la función al enviar el formulario
-      className="flex-1 bg-blue-50/50 text-gray-600 h-full overflow-scroll"
+      className="flex-1 bg-blue-50/50 text-black h-full overflow-scroll"
     >
       <div className="bg-white w-full max-w-3xl p-4 md:p-10 sm:m-10 shadow rounded">
 
@@ -121,15 +121,15 @@ const Addblog = () => {
 
         {/* Editor de contenido */}
         <p>Descripcion</p>
-        <div className='max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative'>
+        <div className='max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative mb-10'>
           <div ref={editorRef}></div> {/* Div que contiene Quill */}
-          <button
+          {/* <button
             className='absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer'
             type='button'
             onClick={generateContent} // Genera contenido con IA
           >
             Generar con IA
-          </button>
+          </button> */}
         </div>
 
         {/* Selección de categoría */}

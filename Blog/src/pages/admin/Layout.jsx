@@ -24,12 +24,12 @@ const Layout = () => {
     return (
         <>
             {/* -------------------- Barra superior -------------------- */}
-            <div className='flex items-center justify-between py-2 h-[70px] px-4 sm:px-12 border-b border-gray-200'>
+            <div className='flex items-center justify-between py-2 h-[70px] px-4 sm:px-12 border-b border-gray-200 mt-5'>
                 {/* Logo que redirige a la página principal al hacer click */}
                 <img
                     src={assets.logo}
                     alt="Logo"
-                    className='w-32 sm:w-40 cursor-pointer'
+                    className='w-32 sm:w-36 cursor-pointer'
                     onClick={() => navigate('/')}
                 />
 

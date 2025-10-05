@@ -20,7 +20,7 @@ const Home = () => {
       <BlogList />
 
       {/* Sección de suscripción al newsletter */}
-      <Newsletter />
+      {/* <Newsletter /> */}
 
       {/* Pie de página */}
       <Footer />

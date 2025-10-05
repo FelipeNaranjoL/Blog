@@ -29,7 +29,7 @@ const Navbar = () => {
                 onClick={() => navigate('/')} // Navegación a home
                 src={assets.logo}            // Imagen del logo
                 alt="Logo" 
-                className='w-32 sm:w-44 cursor-pointer' // Estilos responsivos y cursor pointer
+                className='w-32 sm:w-36 cursor-pointer' // Estilos responsivos y cursor pointer
             />
 
             {/* Botón de acceso al panel de administración o login */}

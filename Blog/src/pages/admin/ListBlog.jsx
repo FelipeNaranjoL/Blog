@@ -39,7 +39,7 @@ const ListBlog = () => {
         <table className='w-full text-sm text-gray-500'>
 
           {/* Encabezado de la tabla */}
-          <thead className='text-xs text-gray-600 text-left uppercase'>
+          <thead className='text-xs text-black text-left uppercase'>
             <tr>
               <th scope='col' className='px-2 py-4 xl:px-6'> # </th>
               <th scope='col' className='px-2 py-4'> Titulo </th>

@@ -26,10 +26,8 @@ const Footer = () => {
                         alt="Logo del blog"
                         className='w-32 sm:w-44'
                     />
-                    <p className='max-w-[410px] mt-6'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Expedita ullam eos, numquam unde iusto asperiores nemo
-                        veritatis harum earum amet.
+                    <p className='max-w-[410px] mt-6 text-black'>
+                        Blog libre de lucro y creado como proyecto personal.
                     </p>
                 </div>
 
@@ -48,7 +46,7 @@ const Footer = () => {
                                     <li key={i}>
                                         <a
                                             href="#"
-                                            className='hover:underline transition'
+                                            className='hover:underline transition text-black'
                                         >
                                             {link}
                                         </a>
@@ -62,7 +60,7 @@ const Footer = () => {
 
             {/* Texto de copyright */}
             <p className='py-4 text-center text-sm md:text-base text-gray-500/80'>
-                Copyright 2025 Blog
+                Copyright 2025 Blog Felipe Naranjo
             </p>
         </div>
     )

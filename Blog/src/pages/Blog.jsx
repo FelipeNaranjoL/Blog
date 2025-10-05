@@ -90,7 +90,7 @@ const Blog = () => {
             <Navbar />
 
             {/* Encabezado del blog */}
-            <div className='text-center mt-20 text-gray-600'>
+            <div className='text-center mt-10 text-black'>
                 {/* Fecha de publicación */}
                 <p className='text-primary py-4 font-medium'>
                     Publicado el {moment(data.createdAt).format('D/MM/YYYY')}
@@ -111,7 +111,7 @@ const Blog = () => {
             {/* Contenido principal */}
             <div className='mx-5 max-w-5xl md:mx-auto py-10 mt-6'>
                 {/* Imagen del blog */}
-                <img src={data.image} className='rounded-3xl mb-5' alt="" />
+                <img src={data.image} className="rounded-3xl mb-10 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain"  />
 
                 {/* Contenido HTML del blog */}
                 <div className='rich-text max-w-3xl mx-auto'
@@ -124,7 +124,7 @@ const Blog = () => {
 
                     <div className='flex flex-col gap-4'>
                         {comments.map((item, index) => (
-                            <div key={index} className='relative bg-primary/2 border border-primary/5 max-w-xl p-4 rounded text-gray-600'>
+                            <div key={index} className='relative bg-primary/2 border border-primary/5 max-w-xl p-4 rounded text-black'>
                                 <div className='flex items-center gap-2 mb-2'>
                                     <img src={assets.user_icon} className='w-6' alt="" />
                                     <p className='font-medium'>{item.name}</p>

@@ -31,7 +31,7 @@
    Se crea un color primario que puede reutilizarse en clases
    como bg-primary, text-primary, border-primary, etc. */
 @theme {
-  --color-primary: #1041E5; /* Azul principal de la marca */
+  --color-primary: #000000; /* negro principal de la marca */
 }
 
 

@@ -59,17 +59,17 @@ const BlogTableItem = ({ blog, fetchBlogs, index }) => {
     return (
         <tr className='border-y border-gray-300'>
             {/* Columna: índice del blog */}
-            <th className='px-2 py-4'>{index}</th>
+            <th className='px-2 py-4 text-black'>{index}</th>
 
             {/* Columna: título del blog (oculto en pantallas pequeñas) */}
-            <td className='px-2 py-4 max-sm:hidden'>{title}</td>
+            <td className='px-2 py-4 max-sm:hidden text-black'>{title}</td>
 
             {/* Columna: fecha de creación formateada (oculta en pantallas pequeñas) */}
-            <td className='px-2 py-4 max-sm:hidden'>{BlogDate.toLocaleDateString('es-ES')}</td>
+            <td className='px-2 py-4 max-sm:hidden text-black'>{BlogDate.toLocaleDateString('es-ES')}</td>
 
             {/* Columna: estado de publicación */}
             <td className='px-2 py-4 max-sm:hidden'>
-                <p className={blog.isPublished ? "text-green-600" : "text-orange-700"}>
+                <p className={blog.isPublished ? "text-green-600" : "text-red-700"}>
                     {blog.isPublished ? 'Publicado' : 'Sin publicar'}
                 </p>
             </td>
@@ -79,7 +79,7 @@ const BlogTableItem = ({ blog, fetchBlogs, index }) => {
                 {/* Botón para cambiar estado de publicación */}
                 <button 
                     onClick={togglePublish} 
-                    className='border px-2 py-0.5 mt-1 rounded cursor-pointer'
+                    className='border px-2 py-0.5 mt-1 rounded cursor-pointer text-black'
                 >
                     {blog.isPublished ? 'Despublicar' : 'Publicar'}
                 </button>
@@ -89,7 +89,7 @@ const BlogTableItem = ({ blog, fetchBlogs, index }) => {
                     onClick={deleteBlog}
                     src={assets.cross_icon}
                     alt="Eliminar"
-                    className='w-8 hover:scale-110 transition-all cursor-pointer'
+                    className='w-10 hover:scale-110 transition-all cursor-pointer'
                 />
             </td>
         </tr>

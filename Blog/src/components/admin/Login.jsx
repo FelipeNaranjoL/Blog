@@ -57,7 +57,7 @@ const Login = () => {
                     </div>
 
                     {/* Formulario controlado */}
-                    <form onSubmit={handleSubmit} className='mt-6 w-full sm:max-w-md text-gray-600'>
+                    <form onSubmit={handleSubmit} className='mt-6 w-full sm:max-w-md text-black'>
 
                         {/* Campo correo */}
                         <div className='flex flex-col'>

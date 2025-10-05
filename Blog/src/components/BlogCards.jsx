@@ -33,7 +33,7 @@ const BlogCards = ({ blog }) => {
             <img 
                 src={image} 
                 alt={`Imagen del blog: ${title}`}  
-                className='aspect-video object-cover'
+                className='h-24 w-60 object-cover'
             />
 
             {/* Categoría del post */}
@@ -52,10 +52,10 @@ const BlogCards = ({ blog }) => {
 
                 {/* Resumen del contenido */}
                 <p 
-                    className='mb-3 text-xs text-gray-600'
-                    dangerouslySetInnerHTML={{
-                        __html: description.slice(0, 80) + "..."
-                    }}
+                    className='mb-3 text-xs text-black'
+                    // dangerouslySetInnerHTML={{
+                    //     __html: description.slice(0, 80) + "..."
+                    // }}
                 />
             </div>
         </div>

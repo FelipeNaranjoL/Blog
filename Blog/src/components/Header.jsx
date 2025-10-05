@@ -34,24 +34,24 @@ const Header = () => {
 
     return (
         <div className='mx-8 sm:mx-16 xl:mx-24 relative'>
-            
+
             {/* Contenedor central con texto */}
             <div className='text-center mt-20 mb-8'>
 
                 {/* Franja destacada superior */}
                 <div
                     className='inline-flex items-center justify-center gap-4 
-                               px-6 py-1.5 mb-4 border border-primary/40 
+                               px-6 py-1.5 mb-8 border border-primary/40 
                                bg-primary/10 rounded-full text-sm text-primary'
                 >
                     {/* Texto destacado */}
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
+                    <p>Un espacio donde la documentación converge en un solo lugar.</p>
                     {/* Icono decorativo */}
-                    <img
+                    {/* <img
                         src={assets.star_icon}
                         className='w-2.5'
                         alt="icono destacado"
-                    />
+                    /> */}
                 </div>
 
                 {/* Título principal */}
@@ -59,8 +59,8 @@ const Header = () => {
                     className='text-3xl sm:text-6xl font-semibold sm:leading-16 
                                text-gray-700'
                 >
-                    Lorem ipsum <span className='text-primary'>dolor</span><br />
-                    sit amet.
+                    Aprende algo nuevo, publícalo y compártelo con <span className='text-primary'>otros.</span><br />
+
                 </h1>
 
                 {/* Subtítulo / descripción */}
@@ -68,20 +68,17 @@ const Header = () => {
                     className='my-6 sm:my-8 max-w-2xl m-auto max-sm:text-xs 
                                text-gray-500'
                 >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Qui debitis quos neque consequuntur autem ratione dolorem
-                    magni enim quas dolorum?
-                </p>
+                    Publica dentro de las tecnologías registradas y comparte tus hallazgos y conocimientos para que otros desarrolladores se mantengan al día en el mundo de la programación.                </p>
 
                 {/* Formulario de búsqueda */}
-                <form 
+                <form
                     onSubmit={onSubmitHandler} // Llama a la función al enviar
                     className='flex justify-between max-w-lg max-sm:scale-75 
                                mx-auto border border-gray-300 bg-white 
                                rounded overflow-hidden'
                 >
                     {/* Input de búsqueda */}
-                    <input 
+                    <input
                         ref={inputRef}            // Referencia para acceder al valor
                         type="text"
                         placeholder='Buscar contenido'
@@ -103,8 +100,8 @@ const Header = () => {
             {/* Botón de limpiar, solo se muestra si hay texto en input */}
             <div className='text-center'>
                 {input &&
-                    <button 
-                        onClick={onClear} 
+                    <button
+                        onClick={onClear}
                         className='border font-light text-xs py-1 px-3 rounded-sm shadow-custom-sm cursor-pointer'
                     >
                         Limpiar

@@ -61,11 +61,11 @@ const CommentTableItem = ({ comment, fetchComments }) => {
         <tr className='border-y border-gray-300'>
             {/* Columna: Información del comentario */}
             <td className='px-6 py-4'>
-                <b className='font-medium text-gray-600'>Blog</b> : {blog.title}
+                <b className='font-medium text-black'>Blog</b> : {blog.title}
                 <br /><br />
-                <b className='font-medium text-gray-600'>Nombre</b> : {comment.name}
+                <b className='font-medium text-black'>Nombre</b> : {comment.name}
                 <br />
-                <b className='font-medium text-gray-600'>Comentario</b> : {comment.content}
+                <b className='font-medium text-black'>Comentario</b> : {comment.content}
             </td>
 
             {/* Columna: Fecha de creación (oculta en pantallas pequeñas) */}
