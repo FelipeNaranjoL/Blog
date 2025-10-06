@@ -23,21 +23,21 @@ const BlogCards = ({ blog }) => {
     const navigate = useNavigate();
 
     return (
-        <div 
+        <div
             onClick={() => navigate(`/blog/${_id}`)}
             className='w-full rounded-lg overflow-hidden shadow 
                        hover:scale-105 hover:shadow-primary/25 
                        duration-300 cursor-pointer'
         >
             {/* Imagen de portada del blog */}
-            <img 
-                src={image} 
-                alt={`Imagen del blog: ${title}`}  
-                className='h-24 w-60 object-cover'
+            <img
+                src={image}
+                alt={`Imagen del blog: ${title}`}
+                className="rounded-3xl mb-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain"
             />
 
             {/* Categoría del post */}
-            <span 
+            <span
                 className='ml-5 mt-4 px-3 inline-block bg-primary/20 
                            rounded-full text-primary text-xs'
             >
@@ -51,11 +51,11 @@ const BlogCards = ({ blog }) => {
                 </h5>
 
                 {/* Resumen del contenido */}
-                <p 
+                <p
                     className='mb-3 text-xs text-black'
-                    // dangerouslySetInnerHTML={{
-                    //     __html: description.slice(0, 80) + "..."
-                    // }}
+                // dangerouslySetInnerHTML={{
+                //     __html: description.slice(0, 80) + "..."
+                // }}
                 />
             </div>
         </div>
